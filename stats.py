@@ -3,11 +3,15 @@ class TeamStats:
         self.score = 0
         self.name = ""
         self.stats = {'players': [], 'subs': [], 'goals': [], 'cards': []}
+        self.parse = 0
 
-    def players(self):
-        print("PLAYERS:")
+    def get_players(self):
+        if not self.parse:
+            return "NO INFO AVAILABLE!"
+        players = "PLAYERS:"
         for player in self.stats['players']:
-            print(player)
+            players += "\n" + player
+        return players
 
     def addGoal(self, goal):
         wasPlayer = 0
@@ -21,24 +25,45 @@ class TeamStats:
             self.stats['goals'].append(goal)
 
     def get_goals(self):
-        print("GOALS:")
+        if not self.parse:
+            return "NO INFO AVAILABLE!"
+        result = "GOALS:"
         for goal in self.stats['goals']:
-            result = ''
+            result += "\n"
             for minute in goal['minute']:
                 result += minute + "' "
             result += goal['player']
-            print(result)
+            if goal['og']:
+                result += " (OG)"
+        return result
 
     def get_cards(self):
-        print("CARDS:")
+        if not self.parse:
+            return "NO INFO AVAILABLE!"
+        cards = "CARDS:"
         for card in self.stats['cards']:
-            print(card['minute'] + "' " + card['player'] + " " + card['color'])
+            cards += ("\n" + card['minute'] + "' " + card['player'] + " " + card['color'])
+        return cards
 
     def get_subs(self):
-        print("SUBS:")
+        if not self.parse:
+            return "NO INFO AVAILABLE!"
+        subs = "SUBS:"
         for sub in self.stats['subs']:
-            print(sub['minute'] + "' " + sub['in'] + " for " + sub['out'])
+            subs += ("\n" + sub['minute'] + "' " + sub['in'] + " for " + sub['out'])
+        return subs
 
     def get_score(self):
-        print(self.score)
+        if not self.parse:
+            return "NO INFO AVAILABLE!"
+        return str(self.score)
 
+    def print_summary(self):
+        if not self.parse:
+            print("NO INFO AVAILABLE!")
+            return
+        print("TEAM " + self.name)
+        print(self.get_players())
+        print(self.get_goals())
+        print(self.get_cards())
+        print(self.get_subs())
