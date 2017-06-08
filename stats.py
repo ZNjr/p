@@ -17,7 +17,7 @@ class TeamStats:
         wasPlayer = 0
         for g in self.stats['goals']:
             if goal['player'] in g['player']:
-                g['minute'].append(goal['minute'][0])
+                g['minute'].append("," + goal['minute'][0])
                 g['og'].append(goal['og'][0])
                 wasPlayer = 1
                 break
@@ -31,9 +31,9 @@ class TeamStats:
         for goal in self.stats['goals']:
             result += "\n"
             for minute in goal['minute']:
-                result += minute + "' "
-            result += goal['player']
-            if goal['og']:
+                result += minute + "'"
+            result += " " + goal['player']
+            if goal['og'][0]:
                 result += " (OG)"
         return result
 
